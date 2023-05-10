@@ -53,4 +53,10 @@ class BooksApi2(generics.GenericAPIView):
             serializer.save()
             return Response({"status": "success", "note": serializer.data})
         return Response({"status": "fail", "message": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
-        # return Response({"status": "fail", "message": f"Note with Id: {pk} not found"}, status=status.HTTP_404_NOT_FOUND)
+    
+    def delete(self,request,pk):
+        book = self.get_note(pk)
+        if book == None:
+            return Response({"status": "fail", "message": f"Note with Id: {pk} not found"}, status=status.HTTP_404_NOT_FOUND)
+        book.delete()
+        return Response({"status": "sucess", "message": f"Note with Id: {pk} deleted"}, status=status.HTTP_404_NOT_FOUND)
